@@ -125,18 +125,31 @@ class CursoController extends Controller
     }
 
     /**
-     * Muestra los cursos creados por el usuario actual
+     * Muestra los cursos creados por el usuario actual o a los que está preinscrito
      */
     public function misCursos()
     {
-        // Obtener los cursos del usuario autenticado
-        $cursos = Auth::user()->cursosCreados()->latest()->get();
+        $user = Auth::user();
+        
+        if ($user->role === 'docente') {
+            // Para docentes, mostrar los cursos que han creado
+            $cursos = $user->cursosCreados()->latest()->get();
+            $cursosPreinscritos = collect();
+        } else {
+            // Para usuarios, mostrar los cursos a los que están preinscritos
+            $cursos = collect();
+            $cursosPreinscritos = $user->cursos()
+                ->withPivot('estado', 'fecha_inscripcion')
+                ->orderBy('curso_usuario.created_at', 'desc')
+                ->get();
+        }
         
         // Pasar a la vista con las variables necesarias
         return view('preinscripcion', [
             'seccion' => 'mis-cursos',
             'cursos' => $cursos,
-            'user' => Auth::user() // Asegurarse de que el usuario esté disponible en la vista
+            'cursosPreinscritos' => $cursosPreinscritos,
+            'user' => $user
         ]);
     }
 
@@ -310,6 +323,44 @@ class CursoController extends Controller
             'cursos' => $cursos,
             'user' => Auth::user()
         ]);
+    }
+
+    /**
+     * Maneja la preinscripción de un usuario a un curso.
+     */
+    public function preinscribir(Request $request, $cursoId)
+    {
+        // Verificar si el usuario está autenticado
+        if (!Auth::check()) {
+            return redirect()->route('login')->with('error', 'Debes iniciar sesión para preinscribirte.');
+        }
+
+        $user = Auth::user();
+        $curso = Curso::findOrFail($cursoId);
+
+        // Verificar si el usuario ya está inscrito en el curso
+        if ($user->cursos()->where('curso_id', $cursoId)->exists()) {
+            return redirect()->back()
+                ->with('error', 'Ya estás inscrito en este curso.')
+                ->with('curso_id', $cursoId);
+        }
+
+        try {
+            // Registrar la preinscripción con estado 'pendiente'
+            $user->cursos()->attach($cursoId, [
+                'estado' => 'pendiente',
+                'fecha_inscripcion' => now()
+            ]);
+
+            return redirect()->back()
+                ->with('success', '¡Preinscripción exitosa! Tu solicitud está en revisión.')
+                ->with('curso_id', $cursoId);
+                
+        } catch (\Exception $e) {
+            return redirect()->back()
+                ->with('error', 'Error al procesar la preinscripción: ' . $e->getMessage())
+                ->with('curso_id', $cursoId);
+        }
     }
 
     // Los demás métodos del controlador pueden permanecer vacíos por ahora

@@ -5,6 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -18,6 +19,16 @@ class User extends Authenticatable
      *
      * @var list<string>
      */
+    /**
+     * Relación muchos a muchos con cursos (cursos en los que está inscrito el usuario)
+     */
+    public function cursos()
+    {
+        return $this->belongsToMany(Curso::class, 'curso_usuario')
+            ->withPivot('estado', 'fecha_inscripcion')
+            ->withTimestamps();
+    }
+
     protected $fillable = [
         'name',
         'username',

@@ -51,6 +51,11 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 // Ruta pública para ver cursos publicados
 Route::get('/cursos-publicados', [CursoController::class, 'cursosPublicados'])->name('cursos.publicados');
 
+// Ruta para preinscripción (accesible solo para usuarios autenticados)
+Route::post('/cursos/{curso}/preinscribir', [CursoController::class, 'preinscribir'])
+    ->middleware('auth')
+    ->name('cursos.preinscribir');
+
 Route::middleware('auth')->group(function () {
     Route::get('/cursos/crear', [CursoController::class, 'create'])->name('cursos.create');
     Route::post('/cursos', [CursoController::class, 'store'])->name('cursos.store');

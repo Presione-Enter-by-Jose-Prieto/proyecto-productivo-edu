@@ -4,10 +4,21 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Facades\Storage;
 
 class Curso extends Model
 {
+    /**
+     * Relación muchos a muchos con usuarios (estudiantes inscritos)
+     */
+    public function usuarios()
+    {
+        return $this->belongsToMany(User::class, 'curso_usuario')
+            ->withPivot('estado', 'fecha_inscripcion')
+            ->withTimestamps();
+    }
+
     protected $fillable = [
         'titulo',
         'descripcion',
