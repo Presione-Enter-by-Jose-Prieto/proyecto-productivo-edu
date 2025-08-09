@@ -2046,9 +2046,18 @@
                                                 $estaPreinscrito = auth()->user()->cursos->contains($curso->id);
                                             @endphp
                                             @if($estaPreinscrito)
-                                                <button class="btn btn-primary" style=" margin-left: 0; height: 38px; display: inline-flex; align-items: center;" disabled>
-                                                    <i class="fas fa-check-circle me-1"></i> Ya estás preinscrito
-                                                </button>
+                                                <div style="display: inline-flex; gap: 8px; margin-right: 8px;">
+                                                    <form action="{{ route('cursos.eliminar-preinscripcion', $curso->id) }}" method="POST" style="display: inline;" onsubmit="return confirm('¿Estás seguro de que deseas cancelar tu preinscripción a este curso?');">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" style="height: 38px; padding: 0 15px; border: 1px solid #dc3545; color: rgba(255, 255, 255, 0.9); background-color: #dc3545; border-radius: 4px; font-weight: 500; cursor: pointer; display: inline-flex; align-items: center;">
+                                                            <i class="fas fa-times-circle" style="margin-right: 5px;"></i> Cancelar preinscripción
+                                                        </button>
+                                                    </form>
+                                                    <button style="height: 38px; padding: 0 15px; border: 1px solid #0d6efd; background-color: #0d6efd; color: white; border-radius: 4px; font-weight: 500; display: inline-flex; align-items: center; cursor: not-allowed;" disabled>
+                                                        <i class="fas fa-check-circle" style="margin-right: 5px;"></i> Ya estás preinscrito
+                                                    </button>
+                                                </div>
                                             @else
                                                 <form action="{{ route('cursos.preinscribir', $curso->id) }}" method="POST" class="d-inline ms-2">
                                                     @csrf

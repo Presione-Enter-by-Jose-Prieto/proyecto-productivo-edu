@@ -56,6 +56,11 @@ Route::post('/cursos/{curso}/preinscribir', [CursoController::class, 'preinscrib
     ->middleware('auth')
     ->name('cursos.preinscribir');
 
+// Ruta para eliminar preinscripción (accesible solo para usuarios autenticados)
+Route::delete('/cursos/{curso}/eliminar-preinscripcion', [CursoController::class, 'eliminarPreinscripcion'])
+    ->middleware('auth')
+    ->name('cursos.eliminar-preinscripcion');
+
 Route::middleware('auth')->group(function () {
     Route::get('/cursos/crear', [CursoController::class, 'create'])->name('cursos.create');
     Route::post('/cursos', [CursoController::class, 'store'])->name('cursos.store');

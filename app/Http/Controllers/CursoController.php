@@ -373,4 +373,30 @@ class CursoController extends Controller
     {
         //
     }
+
+    /**
+     * Elimina la preinscripción de un usuario a un curso.
+     */
+    public function eliminarPreinscripcion(Curso $curso)
+    {
+        $user = Auth::user();
+        
+        // Verificar si el usuario está preinscrito en el curso
+        if (!$user->cursos()->where('curso_id', $curso->id)->exists()) {
+            return redirect()->back()
+                ->with('error', 'No estás preinscrito en este curso.');
+        }
+
+        try {
+            // Eliminar la relación de preinscripción
+            $user->cursos()->detach($curso->id);
+            
+            return redirect()->back()
+                ->with('success', 'Has cancelado tu preinscripción al curso correctamente.');
+                
+        } catch (\Exception $e) {
+            return redirect()->back()
+                ->with('error', 'Ocurrió un error al cancelar la preinscripción: ' . $e->getMessage());
+        }
+    }
 }
