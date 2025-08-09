@@ -983,7 +983,7 @@
             @case('mis-cursos')
                 @if(auth()->check() && auth()->user()->role === 'docente')
                     <h1 class="titulo">Mis Cursos Creados</h1>
-                @else
+                @elseif(auth()->check() && auth()->user()->role === 'user')
                     <h1 class="titulo">Mis Cursos</h1>
                 @endif
                 
@@ -1023,74 +1023,112 @@
                             </div>
                         @endif
                     @else
-                        <div class="cursos-grid">
-                            @foreach($cursos as $curso)
-                                <div class="curso-card">
-                                    @if($curso->imagen)
-                                        <img src="{{ asset('storage/' . $curso->imagen) }}" alt="{{ $curso->titulo }}" class="curso-imagen">
-                                    @else
-                                        <div class="curso-sin-imagen">
-                                            <i class="fas fa-image"></i>
-                                        </div>
-                                    @endif
-                                    <div class="curso-info">
-                                        <h3>{{ $curso->titulo }}</h3>
-                                        <p class="curso-descripcion">
-                                            {{ $curso->descripcion }}
-                                        </p>
-                                        <div class="curso-metadata">
-                                            <span class="badge {{ $curso->estado === 'publicado' ? 'bg-success' : ($curso->estado === 'borrador' ? 'bg-secondary' : 'bg-warning') }}" title="Estado del curso">
-                                                <i class="fas {{ $curso->estado === 'publicado' ? 'fa-eye' : ($curso->estado === 'borrador' ? 'fa-edit' : 'fa-clock') }}"></i>
-                                                {{ ucfirst($curso->estado) }}
-                                            </span>
-                                            <span class="badge bg-info" title="Nivel del curso">
-                                                <i class="fas fa-graduation-cap"></i>
-                                                {{ ucfirst($curso->nivel) }}
-                                            </span>
-                                        </div>
-                                        <div class="curso-acciones">
-                                            <a href="{{ route('preinscripcion', ['seccion' => 'ver-curso', 'curso' => $curso->id]) }}" class="btn btn-sm " style="background-color: #0d6efd; color: white;" title="Ver detalles del curso">
-                                                <i class="fas fa-eye"></i>
-                                                <span>Ver</span>
-                                            </a>
-                                            <a href="{{ route('cursos.edit', $curso) }}" class="btn btn-sm btn-warning" title="Editar curso">
-                                                <i class="fas fa-edit"></i>
-                                                <span>Editar</span>
-                                            </a>
-                                            <form action="{{ route('cursos.destroy', $curso) }}" method="POST" onsubmit="return confirm('¿Estás seguro de eliminar este curso? Esta acción no se puede deshacer.')">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-sm btn-danger" title="Eliminar curso">
-                                                    <i class="fas fa-trash"></i>
-                                                    <span>Eliminar</span>
-                                                </button>
-                                            </form>
-                                            @if($curso->estado === 'borrador')
-                                                <form action="{{ route('cursos.cambiar-estado', $curso) }}" method="POST">
+                        @if(auth()->user()->role === 'docente')
+                            <div class="cursos-grid">
+                                @foreach($cursos as $curso)
+                                    <div class="curso-card">
+                                        @if($curso->imagen)
+                                            <img src="{{ asset('storage/' . $curso->imagen) }}" alt="{{ $curso->titulo }}" class="curso-imagen">
+                                        @else
+                                            <div class="curso-sin-imagen">
+                                                <i class="fas fa-image"></i>
+                                            </div>
+                                        @endif
+                                        <div class="curso-info">
+                                            <h3>{{ $curso->titulo }}</h3>
+                                            <p class="curso-descripcion">
+                                                {{ $curso->descripcion }}
+                                            </p>
+                                            <div class="curso-metadata">
+                                                <span class="badge {{ $curso->estado === 'publicado' ? 'bg-success' : ($curso->estado === 'borrador' ? 'bg-secondary' : 'bg-warning') }}" title="Estado del curso">
+                                                    <i class="fas {{ $curso->estado === 'publicado' ? 'fa-eye' : ($curso->estado === 'borrador' ? 'fa-edit' : 'fa-clock') }}"></i>
+                                                    {{ ucfirst($curso->estado) }}
+                                                </span>
+                                                <span class="badge bg-info" title="Nivel del curso">
+                                                    <i class="fas fa-graduation-cap"></i>
+                                                    {{ ucfirst($curso->nivel) }}
+                                                </span>
+                                            </div>
+                                            <div class="curso-acciones">
+                                                <a href="{{ route('preinscripcion', ['seccion' => 'ver-curso', 'curso' => $curso->id]) }}" class="btn btn-sm" style="background-color: #0d6efd; color: white;" title="Ver detalles del curso">
+                                                    <i class="fas fa-eye"></i>
+                                                    <span>Ver</span>
+                                                </a>
+                                                <a href="{{ route('cursos.edit', $curso) }}" class="btn btn-sm btn-warning" title="Editar curso">
+                                                    <i class="fas fa-edit"></i>
+                                                    <span>Editar</span>
+                                                </a>
+                                                <form action="{{ route('cursos.destroy', $curso) }}" method="POST" onsubmit="return confirm('¿Estás seguro de eliminar este curso? Esta acción no se puede deshacer.')" class="d-inline">
                                                     @csrf
-                                                    @method('PATCH')
-                                                    <input type="hidden" name="estado" value="publicado">
-                                                    <button type="submit" class="btn btn-sm btn-success" title="Publicar curso">
-                                                        <i class="fas fa-upload"></i>
-                                                        <span>Publicar</span>
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-sm btn-danger" title="Eliminar curso">
+                                                        <i class="fas fa-trash"></i>
+                                                        <span>Eliminar</span>
                                                     </button>
                                                 </form>
-                                            @elseif($curso->estado === 'publicado')
-                                                <form action="{{ route('cursos.cambiar-estado', $curso) }}" method="POST">
-                                                    @csrf
-                                                    @method('PATCH')
-                                                    <input type="hidden" name="estado" value="borrador">
-                                                    <button type="submit" class="btn btn-sm btn-secondary" title="Pasar a borrador">
-                                                        <i class="fas fa-file-alt"></i>
-                                                        <span>Borrador</span>
-                                                    </button>
-                                                </form>
-                                            @endif
+                                                @if($curso->estado === 'borrador')
+                                                    <form action="{{ route('cursos.cambiar-estado', $curso) }}" method="POST" class="d-inline">
+                                                        @csrf
+                                                        @method('PATCH')
+                                                        <input type="hidden" name="estado" value="publicado">
+                                                        <button type="submit" class="btn btn-sm btn-success" title="Publicar curso">
+                                                            <i class="fas fa-upload"></i>
+                                                            <span>Publicar</span>
+                                                        </button>
+                                                    </form>
+                                                @elseif($curso->estado === 'publicado')
+                                                    <form action="{{ route('cursos.cambiar-estado', $curso) }}" method="POST" class="d-inline">
+                                                        @csrf
+                                                        @method('PATCH')
+                                                        <input type="hidden" name="estado" value="borrador">
+                                                        <button type="submit" class="btn btn-sm btn-secondary" title="Pasar a borrador">
+                                                            <i class="fas fa-file-alt"></i>
+                                                            <span>Borrador</span>
+                                                        </button>
+                                                    </form>
+                                                @endif
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            @endforeach
-                        </div>
+                                @endforeach
+                            </div>
+                        @elseif(auth()->user()->role === 'user')
+                            <div class="cursos-grid">
+                                @foreach($cursos as $curso)
+                                    <div class="curso-card">
+                                        @if($curso->imagen)
+                                            <img src="{{ asset('storage/' . $curso->imagen) }}" alt="{{ $curso->titulo }}" class="curso-imagen">
+                                        @else
+                                            <div class="curso-sin-imagen">
+                                                <i class="fas fa-image"></i>
+                                            </div>
+                                        @endif
+                                        <div class="curso-info">
+                                            <h3>{{ $curso->titulo }}</h3>
+                                            <p class="curso-descripcion">
+                                                {{ $curso->descripcion }}
+                                            </p>
+                                            <div class="curso-metadata">
+                                                <span class="badge {{ $curso->estado === 'publicado' ? 'bg-success' : ($curso->estado === 'borrador' ? 'bg-secondary' : 'bg-warning') }}" title="Estado del curso">
+                                                    <i class="fas {{ $curso->estado === 'publicado' ? 'fa-eye' : ($curso->estado === 'borrador' ? 'fa-edit' : 'fa-clock') }}"></i>
+                                                    {{ ucfirst($curso->estado) }}
+                                                </span>
+                                                <span class="badge bg-info" title="Nivel del curso">
+                                                    <i class="fas fa-graduation-cap"></i>
+                                                    {{ ucfirst($curso->nivel) }}
+                                                </span>
+                                            </div>
+                                            <div class="curso-acciones">
+                                                <a href="{{ route('preinscripcion', ['seccion' => 'ver-curso', 'curso' => $curso->id]) }}" class="btn btn-sm" style="background-color: #0d6efd; color: white;" title="Ver detalles del curso">
+                                                    <i class="fas fa-eye"></i>
+                                                    <span>Ver</span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                        @endif
                     @endif
                 </div>
                 @break
@@ -1969,9 +2007,21 @@
                                                 <i class="fas fa-edit me-1"></i> Editar Curso
                                             </a>
                                         @elseif(auth()->user()->role === 'user')
-                                            <button class="btn btn-danger" style="color: white;">
-                                                <i class="fas fa-user-plus me-1"></i> Preinscribirme
-                                            </button>
+                                            @php
+                                                $estaPreinscrito = auth()->user()->cursos->contains($curso->id);
+                                            @endphp
+                                            @if($estaPreinscrito)
+                                                <button class="btn btn-primary" style=" margin-left: 0; height: 38px; display: inline-flex; align-items: center;" disabled>
+                                                    <i class="fas fa-check-circle me-1"></i> Ya estás preinscrito
+                                                </button>
+                                            @else
+                                                <form action="{{ route('cursos.preinscribir', $curso->id) }}" method="POST" class="d-inline ms-2">
+                                                    @csrf
+                                                    <button type="submit" class="btn btn-danger" style="color: white; height: 38px; display: inline-flex; align-items: center;">
+                                                        <i class="fas fa-user-plus me-1"></i> Preinscribirme
+                                                    </button>
+                                                </form>
+                                            @endif
                                         @endif
                                     @endif
                                 </div>
