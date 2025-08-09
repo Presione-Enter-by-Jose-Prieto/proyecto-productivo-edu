@@ -941,9 +941,33 @@
                             <p>Vuelve más tarde para ver los próximos cursos disponibles.</p>
                         </div>
                     @else
+                        <style>
+                            .curso-card.preinscrito {
+                                border: 1px solid #28a745;
+                                position: relative;
+                                overflow: hidden;
+                            }
+                            .curso-card.preinscrito::after {
+                                content: 'Preinscrito';
+                                position: absolute;
+                                top: 15px;
+                                right: -30px;
+                                background: #28a745;
+                                color: white;
+                                padding: 2px 30px;
+                                transform: rotate(45deg);
+                                font-size: 10px;
+                                font-weight: bold;
+                                box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+                            }
+                        </style>
                         <div class="cursos-grid">
                             @foreach($cursos as $curso)
-                                <div class="curso-card">
+                                @php
+                                    $estaPreinscrito = auth()->check() && 
+                                                    auth()->user()->cursos->contains('id', $curso->id);
+                                @endphp
+                                <div class="curso-card {{ $estaPreinscrito ? 'preinscrito' : '' }}">
                                     @if($curso->imagen)
                                         <img src="{{ asset('storage/' . $curso->imagen) }}" alt="{{ $curso->titulo }}" class="curso-imagen">
                                     @else
@@ -1876,7 +1900,18 @@
                             </h1>
                         </div>
                         
+                        @if(session('success') && session('curso_id') == $curso->id)
+                            <div class="alert alert-success mb-4" style="margin: 0.5rem 0 1rem 0; border-radius: 6px;">
+                                <i class="fas fa-check-circle me-2"></i> {{ session('success') }}
+                            </div>
+                        @elseif(session('error') && session('curso_id') == $curso->id)
+                            <div class="alert alert-danger mb-4" style="margin: 0.5rem 0 1rem 0; border-radius: 6px;">
+                                <i class="fas fa-exclamation-circle me-2"></i> {{ session('error') }}
+                            </div>
+                        @endif
+
                         <div class="curso-body {{ strtolower($curso->nivel_formateado) === 'avanzado' ? 'nivel-avanzado' : '' }}">
+                            
                             @if($curso->imagen)
                                 <img src="{{ asset('storage/' . $curso->imagen) }}" class="card-img-top" alt="{{ $curso->titulo }}" style="max-height: 400px; object-fit: cover;">
                             @endif
