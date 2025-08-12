@@ -299,7 +299,6 @@
             color: #7f8285;
             border: 1px solid #7f8285;
             transition: all 0.2s ease;
-            margin-right: 10px;
             padding: 0.5rem 1rem 0.5rem 2.5rem;
             border-radius: 6px;
             position: relative;
@@ -2034,7 +2033,7 @@
                                 
                                 <div class="form-group text-right mt-4">
                                     <a href="{{ route('cursos.publicados') }}" class="btn-volver">
-                                        <i class="fas fa-arrow-left"></i> Volver
+                                       <i class="fas fa-arrow-left"></i> Volver
                                     </a>
                                     @if(auth()->check())
                                         @if(auth()->user()->role === 'docente' && $curso->user_id === auth()->id())
@@ -2050,7 +2049,7 @@
                                                     <form action="{{ route('cursos.eliminar-preinscripcion', $curso->id) }}" method="POST" style="display: inline;" onsubmit="return confirm('¿Estás seguro de que deseas cancelar tu preinscripción a este curso?');">
                                                         @csrf
                                                         @method('DELETE')
-                                                        <button type="submit" style="height: 38px; padding: 0 15px; border: 1px solid #dc3545; color: rgba(255, 255, 255, 0.9); background-color: #dc3545; border-radius: 4px; font-weight: 500; cursor: pointer; display: inline-flex; align-items: center;">
+                                                        <button type="submit" style="height: 38px; padding: 0 15px; margin-left: 10px; border: 1px solid #dc3545; color: rgba(255, 255, 255, 0.9); background-color: #dc3545; border-radius: 4px; font-weight: 500; cursor: pointer; display: inline-flex; align-items: center;">
                                                             <i class="fas fa-times-circle" style="margin-right: 5px;"></i> Cancelar preinscripción
                                                         </button>
                                                     </form>
@@ -2061,7 +2060,7 @@
                                             @else
                                                 <form action="{{ route('cursos.preinscribir', $curso->id) }}" method="POST" class="d-inline ms-2">
                                                     @csrf
-                                                    <button type="submit" class="btn btn-danger" style="color: white; height: 38px; display: inline-flex; align-items: center;">
+                                                    <button type="submit" class="btn btn-danger" style="color: white; height: 38px; display: inline-flex; align-items: center; margin-left: 10px;">
                                                         <i class="fas fa-user-plus me-1"></i> Preinscribirme
                                                     </button>
                                                 </form>
