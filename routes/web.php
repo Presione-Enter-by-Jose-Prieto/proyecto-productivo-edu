@@ -4,11 +4,12 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\CursoController;
+use App\Http\Controllers\HomeController;
 
 
 /* RUTAS DE VISTAS */
 
-Route::view('/', 'inicio')->name('inicio');
+Route::get('/', [HomeController::class, 'index'])->name('inicio');
 Route::view('/login', 'login')->name('login');
 Route::view('/registro', 'registro')->name('registro');
 Route::view('/creditos', 'creditos')->name('creditos');

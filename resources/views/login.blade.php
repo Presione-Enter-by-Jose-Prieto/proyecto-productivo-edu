@@ -17,5 +17,5 @@
 @endpush
 
 @section('content')
-    <x-login />
+   <x-login />
 @endsection
