@@ -11,6 +11,17 @@ use Illuminate\Support\Str;
 
 class CursoController extends Controller
 {
+   public function listaPreinscritos(Curso $curso)
+   {
+      $preinscritos = $curso->usuariosPreinscritos()->get();
+      return view('preinscripcion', [
+         'seccion' => 'lista_preinscritos',
+         'curso' => $curso,
+         'preinscritos' => $preinscritos,
+         'categorias' => $this->categorias
+      ]);
+   }
+   
     // Categorías predefinidas para los cursos
     protected $categorias = [
         'deportivo' => 'Deportivo',
@@ -133,15 +144,24 @@ class CursoController extends Controller
         
         if ($user->role === 'docente') {
             // Para docentes, mostrar los cursos que han creado
-            $cursos = $user->cursosCreados()->latest()->get();
+            $cursos = $user->cursosCreados()
+                ->withCount('usuariosPreinscritos')
+                ->latest()
+                ->get();
             $cursosPreinscritos = collect();
         } else {
-            // Para usuarios, mostrar los cursos a los que están preinscritos
-            $cursos = collect();
+            // Para usuarios, mostrar solo los cursos a los que están preinscritos
             $cursosPreinscritos = $user->cursos()
                 ->withPivot('estado', 'fecha_inscripcion')
                 ->orderBy('curso_usuario.created_at', 'desc')
                 ->get();
+            
+            // Asignar los cursos preinscritos a la variable $cursos para que funcione con la vista existente
+            $cursos = $cursosPreinscritos->map(function($curso) {
+                // Agregar el estado de la preinscripción al objeto del curso
+                $curso->estado_inscripcion = $curso->pivot->estado;
+                return $curso;
+            });
         }
         
         // Pasar a la vista con las variables necesarias

@@ -70,4 +70,5 @@ Route::middleware('auth')->group(function () {
     Route::put('/cursos/{curso}', [CursoController::class, 'update'])->name('cursos.update');
     Route::patch('/cursos/{curso}/cambiar-estado', [CursoController::class, 'cambiarEstado'])->name('cursos.cambiar-estado');
     Route::delete('/cursos/{curso}', [CursoController::class, 'destroy'])->name('cursos.destroy');
+    Route::get('/cursos/{curso}/lista-preinscritos', [CursoController::class, 'listaPreinscritos'])->name('cursos.lista-preinscritos');
 });

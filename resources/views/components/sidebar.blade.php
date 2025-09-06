@@ -9,12 +9,6 @@
     </div>
     <nav class="sidebar-nav">
         <ul class="nav-links">
-            <li class="nav-item {{ request()->routeIs('preinscripcion') && (request('seccion') === null || request('seccion') === 'preinscripcion') ? 'active' : '' }}">
-                <a href="{{ route('preinscripcion', ['seccion' => 'preinscripcion']) }}" class="nav-link">
-                    <i class="fas fa-clipboard-list"></i>
-                    <span>Preinscripción</span>
-                </a>
-            </li>
             <li class="nav-item {{ request()->routeIs('cursos.publicados') || (request()->routeIs('preinscripcion') && request('seccion') === 'ver-curso') ? 'active' : '' }}">
                 <a href="{{ route('cursos.publicados') }}" class="nav-link">
                     <i class="fas fa-list"></i>

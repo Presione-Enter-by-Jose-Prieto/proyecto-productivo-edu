@@ -1,7 +1,7 @@
 <header>
     <div class="contenedor-header">
         <div>
-            <a href="{{ route('inicio') }}">Docentro</a>
+            <a href="{{ route('inicio') }}">Sistema de preinscripciones Corsaje</a>
         </div>
         <nav>
             <ul>

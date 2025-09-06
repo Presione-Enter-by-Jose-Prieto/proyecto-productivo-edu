@@ -19,6 +19,17 @@ class Curso extends Model
             ->withTimestamps();
     }
 
+    /**
+     * Obtiene los usuarios preinscritos al curso
+     */
+    public function usuariosPreinscritos()
+    {
+        return $this->belongsToMany(User::class, 'curso_usuario')
+            ->wherePivot('estado', 'pendiente')
+            ->withPivot('estado', 'fecha_inscripcion')
+            ->withTimestamps();
+    }
+
     protected $fillable = [
         'titulo',
         'descripcion',
