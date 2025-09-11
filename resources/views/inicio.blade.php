@@ -23,6 +23,30 @@
         /* Cursos Preview Section */
         .cursos-preview {
             padding: 2rem 0;
+            position: relative;
+        }
+
+        .crear-curso-btn {
+            position: absolute;
+            top: 2rem;
+            right: 0;
+            background: #238636;
+            color: white;
+            border: none;
+            padding: 0.5rem 1.5rem;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .crear-curso-btn:hover {
+            background: #2ea043;
         }
 
 
@@ -223,6 +247,17 @@
     <div class="contenedor">
         <section class="cursos-preview">
             <h1 class="section-title">Cursos Disponibles</h1>
+            @auth
+                @if(auth()->user()->role === 'docente')
+                    <a href="{{ route('cursos.create') }}" class="crear-curso-btn">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                        </svg>
+                        Crear Curso
+                    </a>
+                @endif
+            @endauth
             
             @if(isset($cursos) && $cursos->count() > 0)
                 <div class="cursos-grid">
