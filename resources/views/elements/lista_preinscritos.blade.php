@@ -15,30 +15,28 @@
         @else
             <div class="tabla-contenedor table-responsive w-100">
                 <table class="table table-hover mb-0 w-100">
-                    <thead class="table-light encabezados">
-                        <tr style="border: 1px solid #30363d;">
-                            <th class="text-center" style="width: 5%;">#</th>
-                            <th class="text-center" style="width: 25%;">Nombre</th>
-                            <th class="text-center" style="width: 35%;">Email</th>
-                            <th class="text-center" style="width: 20%;">Fecha de preinscripción</th>
-                            <th class="text-center" style="width: 15%;">Acciones</th>
+                    <thead class="table-header">
+                        <tr class="bg-dark text-white">
+                            <th>Nombre</th>
+                            <th>Email</th>
+                            <th>Fecha de preinscripción</th>
+                            <th>Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach($preinscritos as $index => $usuario)
                             <tr>
-                                <td class="text-center">{{ $index + 1 }}</td>
-                                <td class="text-center text-truncate" style="max-width: 200px;" title="{{ $usuario->name }}">{{ $usuario->name }}</td>
-                                <td class="text-center text-truncate" style="max-width: 300px;" title="{{ $usuario->email }}">{{ $usuario->email }}</td>
-                                <td class="text-center text-nowrap">{{ $usuario->pivot->created_at->format('d/m/Y H:i') }}</td>
+                                <td>{{ $usuario->name }}</td>
+                                <td>{{ $usuario->email }}</td>
+                                <td>{{ $usuario->pivot->created_at->format('d/m/Y H:i') }}</td>
                                 <td>
-                                    <div class="btn-group btn-group-sm">
-                                        <a href="#" class="btn btn-sm btn-success" title="Aprobar">
-                                            <i class="fas fa-check"></i>
-                                        </a>
-                                        <a href="#" class="btn btn-sm btn-danger" title="Rechazar">
-                                            <i class="fas fa-times"></i>
-                                        </a>
+                                    <div class="btn-group btn-group-sm" role="group">
+                                        <button type="button" class="btn btn-success btn-action" title="Aprobar usuario">
+                                            <i class="fas fa-check me-1"></i> Aprobar
+                                        </button>
+                                        <button type="button" class="btn btn-danger btn-action" title="Rechazar usuario">
+                                            <i class="fas fa-times me-1"></i> Rechazar
+                                        </button>
                                     </div>
                                 </td>
                             </tr>
@@ -52,66 +50,93 @@
 
 @push('styles')
 <style>
-
-   .tabla-contenedor {
-      box-sizing: border-box;
-      width: 100%;
-      max-width: 100%;
-      margin-bottom: 1rem;
-      padding: 1.25rem;
-      border-radius: 6px;
-      background-color: rgba(22, 27, 34, 0.6);
-      border: 1px solid #30363d;
-   }
-   .encabezados th {
-      color: #e9ecef;
-      font-weight: 600;
-      text-transform: uppercase;
-      font-size: 0.75rem;
-      letter-spacing: 0.5px;
-      padding: 0.85rem 1rem;
-      border: none;
-      position: relative;
-      transition: all 0.2s ease;
-      border: 1px solid #30363d;
-   }
-
+    .tabla-contenedor {
+        box-sizing: border-box;
+        width: 100%;
+        max-width: 100%;
+        margin: 0;
+        padding: 1rem;
+        border-radius: 6px;
+        background-color: rgba(22, 27, 34, 0.6);
+        border: 1px solid #30363d;
+    }
+    
     .table {
         table-layout: fixed;
         width: 100%;
+        margin: 0;
     }
     
-    .table th {
+    .table-header {
+        background-color: #1a1f26;
+    }
+    
+    .table thead th {
+        text-align: center;
+        vertical-align: middle;
+        padding: 0.85rem 1rem;
+        background-color: transparent;
+        color: #e9ecef;
         font-weight: 600;
         text-transform: uppercase;
         font-size: 0.75rem;
         letter-spacing: 0.5px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
+        border: none;
     }
     
-    .table td {
+    .table tbody td {
+        text-align: center;
         vertical-align: middle;
-        text-align: center;
+        padding: 0.75rem 1rem;
     }
     
-    .table th {
-        text-align: center;
+    .table tbody tr {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
     }
     
-    .btn-sm {
+    .table tbody tr:nth-child(odd) {
+        background-color: rgba(255, 255, 255, 0.01);
+    }
+    
+    .table tbody tr:nth-child(even) {
+        background-color: rgba(255, 255, 255, 0.03);
+    }
+    
+    .table tbody tr:last-child {
+        border-bottom: none;
+    }
+    
+    .btn-action {
+        transition: all 0.2s ease;
+        border-radius: 4px !important;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .btn-success {
+        background-color: #198754;
+        border-color: #198754;
+    }
+    
+    .btn-success:hover {
+        background-color: #157347;
+        border-color: #146c43;
+    }
+    
+    .btn-danger {
+        background-color: #dc3545;
+        border-color: #dc3545;
+    }
+    
+    .btn-danger:hover {
+        background-color: #bb2d3b;
+        border-color: #b02a37;
+    }
+    
+    .btn-group-sm > .btn, .btn-sm {
         padding: 0.25rem 0.5rem;
         font-size: 0.75rem;
-    }
-    
-    .card {
-        border: none;
-        overflow: hidden;
-    }
-    
-    .card-header {
-        border-bottom: none;
     }
 </style>
 @endpush
