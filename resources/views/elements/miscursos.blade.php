@@ -28,15 +28,19 @@
             </div>
          </div>
       @else
-         <div class="text-center py-5">
-            <div class="mb-4">
-               <i class="fas fa-book-reader fa-4x text-muted mb-3"></i>
+         <div class="empty-state-container">
+            <div class="contenedor_no_cursos">
+               <div class="empty-state-icon mb-4">
+                  <i class="fas fa-book-reader fa-4x text-primary"></i>
+               </div>
+               <h3 class="mb-3 fw-bold">No estás inscrito en ningún curso</h3>
+               <p class="text-muted mb-4">Explora nuestros cursos disponibles y comienza tu aprendizaje hoy mismo.</p>
+               <div class="d-flex justify-content-center gap-3">
+                  <a href="{{ route('cursos.publicados') }}" class="btn btn-primary px-4">
+                     <i class="fas fa-search me-2"></i>Explorar cursos
+                  </a>
+               </div>
             </div>
-            <h3 class="mb-3">No estás inscrito en ningún curso</h3>
-            <p class="text-muted">Explora nuestros cursos disponibles y comienza tu aprendizaje hoy mismo.</p>
-            <a href="{{ route('preinscripcion', ['seccion' => 'cursos-disponibles']) }}" class="btn btn-primary mt-3">
-               <i class="fas fa-search me-2"></i>Explorar cursos
-            </a>
          </div>
       @endif
    @else
@@ -66,50 +70,75 @@
                            {{ ucfirst($curso->nivel) }}
                         </span>
                      </div>
-                     <div class="curso-acciones">
-                        <a href="{{ route('preinscripcion', ['seccion' => 'ver-curso', 'curso' => $curso->id]) }}" class="btn btn-sm" style="background-color: #0d6efd; border-color: #0d6efd; color: white; transition: background-color 0.2s;" title="Ver detalles del curso" onmouseover="this.style.backgroundColor='#0b5ed7'" onmouseout="this.style.backgroundColor='#0d6efd'">
-                           <i class="fas fa-eye"></i>
-                           <span>Ver</span>
-                        </a>
-                        <a href="{{ route('cursos.edit', $curso) }}" class="btn btn-sm btn-warning" title="Editar curso">
-                           <i class="fas fa-edit"></i>
-                           <span>Editar</span>
-                        </a>
-                        <form action="{{ route('cursos.destroy', $curso) }}" method="POST" onsubmit="return confirm('¿Estás seguro de eliminar este curso? Esta acción no se puede deshacer.')" class="d-inline">
-                           @csrf
-                           @method('DELETE')
-                           <button type="submit" class="btn btn-sm btn-danger" title="Eliminar curso">
-                              <i class="fas fa-trash"></i>
-                              <span>Eliminar</span>
-                           </button>
-                        </form>
-                        @if($curso->estado === 'borrador')
-                           <form action="{{ route('cursos.cambiar-estado', $curso) }}" method="POST" class="d-inline">
-                              @csrf
-                              @method('PATCH')
-                              <input type="hidden" name="estado" value="publicado">
-                              <button type="submit" class="btn btn-sm btn-success" title="Publicar curso">
-                                 <i class="fas fa-upload"></i>
-                                 <span>Publicar</span>
-                              </button>
-                           </form>
-                        @elseif($curso->estado === 'publicado')
-                           <form action="{{ route('cursos.cambiar-estado', $curso) }}" method="POST" class="d-inline">
-                              @csrf
-                              @method('PATCH')
-                              <input type="hidden" name="estado" value="borrador">
-                              <button type="submit" class="btn btn-sm btn-secondary" title="Pasar a borrador">
-                                 <i class="fas fa-file-alt"></i>
-                                 <span>Borrador</span>
-                              </button>
-                           </form>
-                        @endif
-                        <div style="width: 100%;">
-                           <a href="{{ route('cursos.lista-preinscritos', $curso) }}" class="btn btn-sm" style="display: block; width: 100%; box-sizing: border-box; background-color: #198754; border-color: #198754; color: white !important; text-align: center; padding: 0.4rem 0.5rem; transition: background-color 0.2s;" title="Ver lista de preinscritos" onmouseover="this.style.backgroundColor='#157347'" onmouseout="this.style.backgroundColor='#198754'">
-                              <i class="fas fa-users me-1" style="color: white !important;"></i>
-                              <span style="color: white !important;">Ver lista de preinscritos</span>
+                     <div class="curso-acciones" style="width:100%; display:flex; flex-direction:column; gap:0.5rem;">
+
+                        <!-- Fila 1: Ver + Editar + Publicar/Borrador -->
+                        <div style="display:flex; width:100%; gap:0.5rem;">
+                           <a href="{{ route('preinscripcion', ['seccion' => 'ver-curso', 'curso' => $curso->id]) }}" 
+                              class="btn btn-sm" 
+                              style="flex:1; max-width:15%; background-color:#0d6efd; border-color:#0d6efd; color:white; text-align:center; transition:background-color 0.2s;" 
+                              onmouseover="this.style.backgroundColor='#0b5ed7'" 
+                              onmouseout="this.style.backgroundColor='#0d6efd'">
+                              <i class="fas fa-eye"></i> Ver
+                           </a>
+
+                           <a href="{{ route('cursos.edit', $curso) }}" 
+                              class="btn btn-sm btn-warning" 
+                              style="flex:1; max-width:25%; text-align:center;">
+                              <i class="fas fa-edit"></i> Editar
+                           </a>
+
+                           @if($curso->estado === 'borrador')
+                              <form action="{{ route('cursos.cambiar-estado', $curso) }}" method="POST" style="flex:1; max-width:60%; margin:0; display:block;">
+                                 @csrf
+                                 @method('PATCH')
+                                 <input type="hidden" name="estado" value="publicado">
+                                 <button type="submit" class="btn btn-sm btn-success" style="width:100%; text-align:center;">
+                                    <i class="fas fa-upload"></i> Publicar
+                                 </button>
+                              </form>
+                           @elseif($curso->estado === 'publicado')
+                              <form action="{{ route('cursos.cambiar-estado', $curso) }}" method="POST" style="flex:1; max-width:60%; margin:0; display:block;">
+                                 @csrf
+                                 @method('PATCH')
+                                 <input type="hidden" name="estado" value="borrador">
+                                 <button type="submit" class="btn btn-sm btn-secondary" style="width:100%; text-align:center;">
+                                    <i class="fas fa-file-alt"></i> Borrador
+                                 </button>
+                              </form>
+                           @endif
+                        </div>
+
+                        <!-- Fila 2: Preinscritos + Inscritos -->
+                        <div style="display:flex; width:100%; gap:0.5rem;">
+                           <a href="{{ route('cursos.lista-preinscritos', $curso) }}" 
+                              class="btn btn-sm" 
+                              style="flex:1; background-color:#198754; border-color:#198754; color:white; text-align:center; transition:background-color 0.2s;" 
+                              onmouseover="this.style.backgroundColor='#157347'" 
+                              onmouseout="this.style.backgroundColor='#198754'">
+                              <i class="fas fa-users"></i> Preinscritos
+                           </a>
+
+                           <a href="" 
+                              class="btn btn-sm" 
+                              style="flex:1; background-color:#0d6efd; border-color:#0d6efd; color:white; text-align:center; transition:background-color 0.2s;" 
+                              onmouseover="this.style.backgroundColor='#0b5ed7'" 
+                              onmouseout="this.style.backgroundColor='#0d6efd'">
+                              <i class="fas fa-user-check"></i> Inscritos
                            </a>
                         </div>
+
+                        <!-- Fila 3: Eliminar -->
+                        <form action="{{ route('cursos.destroy', $curso) }}" method="POST" 
+                              onsubmit="return confirm('¿Estás seguro de eliminar este curso? Esta acción no se puede deshacer.')" 
+                              style="display:block; width:100%; margin:0;">
+                           @csrf
+                           @method('DELETE')
+                           <button type="submit" class="btn btn-sm btn-danger" style="width:100%; text-align:center;">
+                              <i class="fas fa-trash"></i> Eliminar
+                           </button>
+                        </form>
+                        
                      </div>
                   </div>
                </div>

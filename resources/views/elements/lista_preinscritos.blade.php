@@ -8,10 +8,16 @@
 
     <div class="card shadow-sm">
         @if($preinscritos->isEmpty())
-            <div class="card-body text-center py-5">
-               <i class="fas fa-users fa-3x text-muted mb-3"></i>
-               <p class="text-muted mb-0">No hay usuarios preinscritos en este curso.</p>
+            <div class="empty-state-container">
+                <div class="contenedor_no_cursos">
+                    <div class="empty-state-icon mb-4">
+                        <i class="fas fa-users fa-4x text-primary"></i>
+                    </div>
+                    <h3 class="mb-3 fw-bold">No hay usuarios preinscritos</h3>
+                    <p class="text-muted mb-4">Aún no hay estudiantes interesados en este curso.</p>
+                </div>
             </div>
+
         @else
             <div class="tabla-contenedor table-responsive w-100">
                 <table class="table table-hover mb-0 w-100">
