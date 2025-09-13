@@ -323,6 +323,48 @@
         background-color: #f85149;
         color: #ffffff;
     }
+
+    /* 🔝 Forzar menú de usuario sobre todo */
+.user-avatar {
+    position: relative; /* referencia del dropdown */
+    z-index: 10000; /* asegurar que el contenedor está por encima */
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    background-color: #161b22;
+    border: 1px solid #30363d;
+    border-radius: 6px;
+    padding: 4px 0;
+    min-width: 180px;
+    box-shadow: 0 8px 24px rgba(1, 4, 9, 0.5);
+    display: none;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: opacity 0.1s ease-in-out, transform 0.1s ease-in-out;
+
+    /* ✅ ajustes críticos */
+    z-index: 99999;  /* mucho mayor que cualquier otro */
+    pointer-events: auto;
+}
+
+.dropdown-menu.show {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Prevenir que header o contenedores bloqueen el dropdown */
+header,
+.contenedor-header,
+nav {
+    position: relative;
+    z-index: auto !important;
+}
+
 </style>
 
 <script>

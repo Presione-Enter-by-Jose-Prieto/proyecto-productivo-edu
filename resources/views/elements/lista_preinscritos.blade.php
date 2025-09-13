@@ -28,7 +28,8 @@
                             <tr>
                                 <td>{{ $usuario->name }}</td>
                                 <td>{{ $usuario->email }}</td>
-                                <td>{{ $usuario->pivot->created_at->format('d/m/Y H:i') }}</td>
+                                <td>{{ $usuario->pivot->created_at->timezone('America/Bogota')->translatedFormat('d M Y h:i A') }}</td>
+
                                 <td>
                                     <div class="btn-group btn-group-sm" role="group">
                                         <button type="button" class="btn btn-success btn-action" title="Aprobar usuario">

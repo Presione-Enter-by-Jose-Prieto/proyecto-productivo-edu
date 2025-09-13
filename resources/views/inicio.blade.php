@@ -14,69 +14,67 @@
         .section-title {
             text-align: left;
             color: #c9d1d9;
-            margin: 0 0 1.5rem 0;
-            font-size: 1.75rem;
+            margin: 0 0 1rem 0;
+            font-size: 1.5rem;
             font-weight: 600;
-            padding: 0;
         }
 
         /* Cursos Preview Section */
         .cursos-preview {
-            padding: 2rem 0;
+            padding: 1.5rem 0;
             position: relative;
         }
 
         .crear-curso-btn {
             position: absolute;
-            top: 2rem;
+            top: 1.5rem;
             right: 0;
             background: #238636;
             color: white;
             border: none;
-            padding: 0.5rem 1.5rem;
+            padding: 0.4rem 1rem;
             border-radius: 6px;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             font-weight: 500;
             cursor: pointer;
             transition: background-color 0.2s;
             text-decoration: none;
             display: inline-flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.4rem;
         }
 
         .crear-curso-btn:hover {
             background: #2ea043;
         }
 
-
-
         .cursos-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 1.25rem;
-            margin-top: 1.5rem;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
         }
 
         .curso-card {
-            background: #161b22;
+            background: #161b23;
+            border: 1px solid #2a2f38;
             border-radius: 8px;
             overflow: hidden;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            border: 1px solid #30363d;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.5);
             display: flex;
             flex-direction: column;
+            transition: transform 0.2s, box-shadow 0.2s;
+            color: #f1f1f1;
             height: 100%;
         }
 
         .curso-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-            border-color: #58a6ff;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.6);
         }
 
         .curso-imagen-container {
-            height: 140px;
+            height: 110px;
             overflow: hidden;
         }
 
@@ -84,52 +82,45 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: transform 0.3s ease;
-        }
-
-        .curso-card:hover .curso-imagen {
-            transform: scale(1.05);
         }
 
         .curso-sin-imagen {
-            height: 140px;
+            height: 110px;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: #0d1117;
-            color: #484f58;
-            font-size: 2rem;
+            background: #2a2f38;
+            color: #888;
+            font-size: 1.5rem;
         }
 
         .curso-info {
-            padding: 1rem;
+            padding: 0.75rem;
             flex: 1;
             display: flex;
             flex-direction: column;
         }
 
         .curso-info h3 {
-            margin: 0 0 0.5rem 0;
-            color: #c9d1d9;
-            font-size: 1.1rem;
-            line-height: 1.3;
-            min-height: auto;
-            max-height: 2.8em;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            display: -webkit-box;
+            margin: 0 0 0.4rem 0;
+            color: #ffffff;
+            font-size: 1rem;
+            line-height: 1.2;
             -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
+            overflow: hidden;
+            display: -webkit-box;
+            text-overflow: ellipsis;
         }
 
         .curso-descripcion {
-            color: #8b949e;
-            font-size: 0.85rem;
-            margin-bottom: 0.75rem;
-            line-height: 1.4;
+            font-size: 0.8rem;
+            color: #cccccc;
+            margin-bottom: 0.5rem;
+            line-height: 1.3;
             flex-grow: 1;
             display: -webkit-box;
-            -webkit-line-clamp: 3;
+            -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -137,51 +128,66 @@
 
         .curso-meta {
             display: flex;
-            gap: 0.5rem;
-            margin-bottom: 0.75rem;
+            gap: 0.4rem;
+            margin-bottom: 0.5rem;
             flex-wrap: wrap;
         }
 
         .badge {
-            background: rgba(88, 166, 255, 0.1);
+            background: rgba(88, 166, 255, 0.08);
             color: #58a6ff;
-            padding: 0.25rem 0.6rem;
+            padding: 0.2rem 0.5rem;
             border-radius: 12px;
             font-size: 0.75rem;
+            font-weight: 500;
             display: inline-flex;
             align-items: center;
-            gap: 0.25rem;
+            gap: 0.3rem;
+            border: 1px solid rgba(88, 166, 255, 0.2);
+            transition: all 0.2s;
         }
 
         .badge i {
-            font-size: 0.8em;
+            font-size: 0.7rem; /* más pequeño */
+            opacity: 1;
+            color: inherit; /* mismo color que el texto */
+        }
+
+        .curso-divider {
+            border-top: 1px solid #2a2f38;
+            margin: 0.5rem 0;
+        }
+
+        .curso-acciones {
+            display: flex;
+            justify-content: flex-end;
         }
 
         .btn-ver-mas {
-            display: inline-block;
-            background: #238636;
+            background: #0d6efd;
             color: white;
-            padding: 0.4rem 1rem;
+            padding: 0.3rem 0.75rem;
             border-radius: 4px;
             text-decoration: none;
             font-weight: 500;
-            font-size: 0.85rem;
+            font-size: 0.75rem;
             transition: all 0.2s;
-            text-align: center;
             border: none;
             cursor: pointer;
-            margin-top: 0.25rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
         }
 
         .btn-ver-mas:hover {
-            background: #2ea043;
+            background: #0b5ed7;
             transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(35, 134, 54, 0.2);
+            box-shadow: 0 3px 8px rgba(13, 110, 253, 0.25);
         }
 
         .ver-todos-container {
             text-align: center;
-            margin-top: 3rem;
+            margin-top: 2rem;
         }
 
         .btn-ver-todos {
@@ -190,11 +196,12 @@
             gap: 0.5rem;
             background: transparent;
             color: #58a6ff;
-            padding: 0.75rem 1.5rem;
+            padding: 0.6rem 1.25rem;
             border-radius: 6px;
             text-decoration: none;
             font-weight: 500;
             border: 1px solid #30363d;
+            font-size: 0.85rem;
             transition: all 0.2s;
         }
 
@@ -206,21 +213,22 @@
 
         .empty-state {
             text-align: center;
-            padding: 3rem 1rem;
+            padding: 2rem 1rem;
             color: #8b949e;
             grid-column: 1 / -1;
         }
 
         .empty-state i {
-            font-size: 3rem;
-            margin-bottom: 1rem;
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
             color: #484f58;
             display: block;
         }
 
         .empty-state h3 {
             color: #c9d1d9;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.25rem;
+            font-size: 1.1rem;
         }
 
         @media (max-width: 768px) {
@@ -230,12 +238,8 @@
                 margin: 0 auto;
             }
             
-            .bienvenida h1 {
-                font-size: 2rem;
-            }
-            
             .section-title {
-                font-size: 1.75rem;
+                font-size: 1.25rem;
             }
         }
     </style>
@@ -250,10 +254,7 @@
             @auth
                 @if(auth()->user()->role === 'docente')
                     <a href="{{ route('cursos.create') }}" class="crear-curso-btn">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <line x1="12" y1="5" x2="12" y2="19"></line>
-                            <line x1="5" y1="12" x2="19" y2="12"></line>
-                        </svg>
+                        <i class="fas fa-plus"></i>
                         Crear Curso
                     </a>
                 @endif
@@ -283,12 +284,15 @@
                                         <i class="fas fa-clock"></i> {{ $curso->duracion_horas }}h
                                     </span>
                                     <span class="badge">
-                                        <i class="fas fa-calendar-alt"></i> {{ \Carbon\Carbon::parse($curso->fecha_inicio)->format('d/m/Y') }}
+                                        <i class="fas fa-calendar"></i> {{ \Carbon\Carbon::parse($curso->fecha_inicio)->format('d/m/Y') }}
                                     </span>
                                 </div>
-                                <a href="{{ route('preinscripcion', ['seccion' => 'ver-curso', 'curso' => $curso->id]) }}" class="btn-ver-mas">
-                                    Ver detalles
-                                </a>
+                                <div class="curso-divider"></div>
+                                <div class="curso-acciones">
+                                    <a href="{{ route('preinscripcion', ['seccion' => 'ver-curso', 'curso' => $curso->id]) }}" class="btn-ver-mas">
+                                        <i class="fas fa-eye"></i> Ver detalles
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     @endforeach
