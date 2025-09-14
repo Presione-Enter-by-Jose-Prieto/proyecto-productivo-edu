@@ -71,4 +71,15 @@ Route::middleware('auth')->group(function () {
     Route::patch('/cursos/{curso}/cambiar-estado', [CursoController::class, 'cambiarEstado'])->name('cursos.cambiar-estado');
     Route::delete('/cursos/{curso}', [CursoController::class, 'destroy'])->name('cursos.destroy');
     Route::get('/cursos/{curso}/lista-preinscritos', [CursoController::class, 'listaPreinscritos'])->name('cursos.lista-preinscritos');
+
+    Route::post('/cursos/{curso}/usuarios/{user}/aprobar', [CursoController::class, 'aprobarPreinscrito'])
+        ->name('cursos.aprobarPreinscrito');
+    Route::post('/cursos/{curso}/usuarios/{user}/rechazar', [CursoController::class, 'rechazarPreinscrito'])
+        ->name('cursos.rechazarPreinscrito');
+    Route::delete('/cursos/{curso}/inscritos/{user}/eliminar', [CursoController::class, 'eliminarInscrito'])
+    ->name('cursos.eliminarInscrito')
+    ->middleware('auth');
+
+
+
 });

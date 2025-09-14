@@ -12,16 +12,52 @@ use Illuminate\Support\Str;
 class CursoController extends Controller
 {
    public function listaPreinscritos(Curso $curso)
-   {
-      $preinscritos = $curso->usuariosPreinscritos()->get();
-      return view('preinscripcion', [
-         'seccion' => 'lista_preinscritos',
-         'curso' => $curso,
-         'preinscritos' => $preinscritos,
-         'categorias' => $this->categorias
-      ]);
-   }
-   
+    {
+        $pendientes = $curso->usuarios()->wherePivot('estado', 'pendiente')->get();
+        $aprobados  = $curso->usuarios()->wherePivot('estado', 'aprobado')->get();
+
+        return view('preinscripcion', [
+            'seccion'    => 'lista_preinscritos',
+            'curso'      => $curso,
+            'pendientes' => $pendientes,
+            'aprobados'  => $aprobados,
+            'categorias' => $this->categorias,
+        ]);
+    }
+
+        /**
+     * Aprueba la preinscripción de un usuario en un curso.
+     */
+    public function aprobarPreinscrito(Curso $curso, User $user)
+    {
+        if (Auth::id() !== $curso->user_id && Auth::user()->role !== 'admin') {
+            return back()->with('error', 'No tienes permiso para aprobar inscripciones en este curso.');
+        }
+
+        $curso->usuarios()->updateExistingPivot($user->id, [
+            'estado' => 'aprobado',
+            'fecha_inscripcion' => now(),
+        ]);
+
+        return back()->with('success', 'El usuario ha sido aprobado correctamente.');
+    }
+
+    /**
+     * Rechaza la preinscripción de un usuario en un curso.
+     */
+    public function rechazarPreinscrito(Curso $curso, User $user)
+    {
+        if (Auth::id() !== $curso->user_id && Auth::user()->role !== 'admin') {
+            return back()->with('error', 'No tienes permiso para eliminar esta preinscripción.');
+        }
+
+        // Eliminar del pivot en lugar de marcar como rechazado
+        $curso->usuarios()->detach($user->id);
+
+        return back()->with('success', 'Preinscripción eliminada correctamente.');
+    }
+
+
     // Categorías predefinidas para los cursos
     protected $categorias = [
         'deportivo' => 'Deportivo',
@@ -45,6 +81,21 @@ class CursoController extends Controller
         // Redirigir a la ruta de preinscripción con el parámetro de sección
         return redirect()->route('preinscripcion', ['seccion' => 'crear-curso']);
     }
+
+    public function eliminarInscrito(Curso $curso, User $user)
+    {
+        // Solo el docente creador o admin puede eliminar
+        if (Auth::id() !== $curso->user_id && Auth::user()->role !== 'admin') {
+            return back()->with('error', 'No tienes permiso para eliminar este usuario.');
+        }
+
+        // Eliminar del pivot
+        $curso->usuarios()->detach($user->id);
+
+        return back()->with('success', 'Usuario eliminado correctamente del curso.');
+    }
+
+
 
     /**
      * Almacena un nuevo curso en la base de datos.

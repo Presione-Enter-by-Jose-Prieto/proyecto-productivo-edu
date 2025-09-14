@@ -116,15 +116,7 @@
                               style="flex:1; background-color:#198754; border-color:#198754; color:white; text-align:center; transition:background-color 0.2s;" 
                               onmouseover="this.style.backgroundColor='#157347'" 
                               onmouseout="this.style.backgroundColor='#198754'">
-                              <i class="fas fa-users"></i> Preinscritos
-                           </a>
-
-                           <a href="" 
-                              class="btn btn-sm" 
-                              style="flex:1; background-color:#0d6efd; border-color:#0d6efd; color:white; text-align:center; transition:background-color 0.2s;" 
-                              onmouseover="this.style.backgroundColor='#0b5ed7'" 
-                              onmouseout="this.style.backgroundColor='#0d6efd'">
-                              <i class="fas fa-user-check"></i> Inscritos
+                              <i class="fas fa-users"></i> Gestión de inscritos
                            </a>
                         </div>
 
@@ -138,7 +130,7 @@
                               <i class="fas fa-trash"></i> Eliminar
                            </button>
                         </form>
-                        
+
                      </div>
                   </div>
                </div>
