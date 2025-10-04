@@ -397,6 +397,15 @@
                         <div class="description-content">
                            {!! $curso->descripcion !!}
                         </div>
+                        
+                        <!-- Sección de Comentarios -->
+                        <div style="margin-top: 3rem; padding: 0.5rem 0 1.5rem 0; border-top: 1px solid #2a2f36;">
+                           <h3 class="section-title">Zona de Comentarios</h3>
+                           <div style="background-color: #1e293b; border-radius: 8px; border: 1px solid #2a2f36; padding: 1.5rem; text-align: center;">
+                              <i class="fas fa-comment-slash" style="font-size: 2rem; color: #4b5563; margin-bottom: 0.75rem; display: block;"></i>
+                              <p style="color: #9ca3af; margin: 0; font-size: 0.95rem;">Sección de comentarios disponible próximamente</p>
+                           </div>
+                        </div>
                      </div>
                            
                      <div class="course-details-cards">

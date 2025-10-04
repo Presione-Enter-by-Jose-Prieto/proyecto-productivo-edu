@@ -262,7 +262,7 @@
             
             @if(isset($cursos) && $cursos->count() > 0)
                 <div class="cursos-grid">
-                    @foreach($cursos->take(3) as $curso)
+                    @foreach($cursos->take(4) as $curso)
                         <div class="curso-card">
                             @if($curso->imagen)
                                 <div class="curso-imagen-container">
@@ -298,19 +298,23 @@
                     @endforeach
                 </div>
                 
-                @if($cursos->count() > 3)
-                    <div class="ver-todos-container">
+                @if($cursos->count() > 4)
+                    <div class="ver-todos-container" style="margin-top: 2.5rem; text-align: center;">
                         <a href="{{ route('cursos.publicados') }}" class="btn-ver-todos">
-                            Ver todos los cursos
-                            <i class="fas fa-arrow-right"></i>
+                            <span>Ver todos los cursos</span>
+                            <i class="fas fa-arrow-right" style="transition: transform 0.2s ease-in-out; transform: translateX(0);"></i>
                         </a>
+                        <style>
+                            .ver-todos-container .btn-ver-todos:hover i {
+                                transform: translateX(5px);
+                            }
+                        </style>
                     </div>
                 @endif
             @else
                 <div class="empty-state">
                     <i class="fas fa-book-open"></i>
                     <h3>No hay cursos disponibles en este momento</h3>
-                    <p>Vuelve más tarde para ver los próximos cursos.</p>
                 </div>
             @endif
         </section>

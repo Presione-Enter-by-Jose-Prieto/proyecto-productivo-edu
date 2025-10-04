@@ -112,7 +112,7 @@ class CursoController extends Controller
         $datos = $request->validate([
             'titulo' => 'required|string|max:255',
             'descripcion' => 'required|string',
-            'imagen' => 'nullable|image|mimes:jpeg,png,jpg', // 5MB max
+            'imagen' => 'nullable|image|mimes:jpeg,png,jpg,webp', // 5MB max
             'categoria' => 'required|string|in:' . implode(',', array_keys($this->categorias)),
             'nivel' => 'required|in:basico,intermedio,avanzado',
             'duracion_horas' => 'required|integer|min:1',

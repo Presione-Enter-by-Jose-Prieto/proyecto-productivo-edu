@@ -43,6 +43,7 @@ Route::get('/preinscripcion/{seccion?}', function (Request $request, $seccion = 
 Route::view('/mensajeria', 'mensajeria')->middleware('auth')->name('mensajeria');
 Route::view('/asistencia', 'asistencia')->middleware('auth')->name('asistencia');
 Route::view('/sobreproyecto', 'sobreesteproyecto')->name('sobreproyecto');
+Route::view('/excusas', 'excusas')->middleware('auth')->name('excusas');
 
 /* RUTAS DE ACCIONES */
 Route::post('/validar-login', [LoginController::class, 'login'])->name('validar-login');

@@ -8,6 +8,7 @@
                 <li><a href="{{ route('inicio') }}">Inicio</a></li>
                 <li><a href="{{ route('creditos') }}">Creditos</a></li>
                 <li><a href="{{ route('sobreproyecto') }}">Sobre este proyecto</a></li>
+                <li><a href="{{ route('excusas') }}">Sistema de excusas</a></li>
                 
                 @guest
                     <li class="login-btn-item"><a href="{{ route('login') }}" class="btn-header btn-header-secondary">Iniciar sesión</a></li>

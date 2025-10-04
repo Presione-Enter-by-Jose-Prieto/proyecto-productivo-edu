@@ -3,6 +3,56 @@
 @elseif(auth()->check() && auth()->user()->role === 'user')
    <h1 class="titulo">Mis Cursos</h1>
 @endif
+
+<style>
+    .cursos-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px;
+        margin-top: 20px;
+    }
+
+    .curso-card {
+        background: #161B23;
+        border: 1px solid #2a2f38;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.5);
+        display: flex;
+        flex-direction: column;
+        transition: transform 0.2s, box-shadow 0.2s;
+        color: #f1f1f1;
+    }
+
+    .curso-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.6);
+    }
+
+    .curso-card img.curso-imagen {
+        width: 100%;
+        height: 160px;
+        object-fit: cover;
+    }
+    
+    @media (max-width: 1400px) {
+        .cursos-grid {
+            grid-template-columns: repeat(3, 1fr);
+        }
+    }
+    
+    @media (max-width: 992px) {
+        .cursos-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+    
+    @media (max-width: 576px) {
+        .cursos-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
                 
 <div class="contenido-seccion">
    @if(session('success'))
@@ -74,35 +124,37 @@
 
                         <!-- Fila 1: Ver + Editar + Publicar/Borrador -->
                         <div style="display:flex; width:100%; gap:0.5rem;">
+                           <!-- Botón Ver -->
                            <a href="{{ route('preinscripcion', ['seccion' => 'ver-curso', 'curso' => $curso->id]) }}" 
                               class="btn btn-sm" 
-                              style="flex:1; max-width:15%; background-color:#0d6efd; border-color:#0d6efd; color:white; text-align:center; transition:background-color 0.2s;" 
+                              style="flex: 1; background-color:#0d6efd; border-color:#0d6efd; color:white; text-align:center; transition:background-color 0.2s; padding: 0.25rem 0.5rem;" 
                               onmouseover="this.style.backgroundColor='#0b5ed7'" 
                               onmouseout="this.style.backgroundColor='#0d6efd'">
                               <i class="fas fa-eye"></i> Ver
                            </a>
 
+                           <!-- Botón Editar -->
                            <a href="{{ route('cursos.edit', $curso) }}" 
                               class="btn btn-sm btn-warning" 
-                              style="flex:1; max-width:25%; text-align:center;">
+                              style="flex: 1; text-align:center; padding: 0.25rem 0.5rem;">
                               <i class="fas fa-edit"></i> Editar
                            </a>
 
                            @if($curso->estado === 'borrador')
-                              <form action="{{ route('cursos.cambiar-estado', $curso) }}" method="POST" style="flex:1; max-width:60%; margin:0; display:block;">
+                              <form action="{{ route('cursos.cambiar-estado', $curso) }}" method="POST" style="flex: 1; margin: 0;">
                                  @csrf
                                  @method('PATCH')
                                  <input type="hidden" name="estado" value="publicado">
-                                 <button type="submit" class="btn btn-sm btn-success" style="width:100%; text-align:center;">
+                                 <button type="submit" class="btn btn-sm btn-success w-100" style="text-align:center; padding: 0.25rem 0.5rem;">
                                     <i class="fas fa-upload"></i> Publicar
                                  </button>
                               </form>
                            @elseif($curso->estado === 'publicado')
-                              <form action="{{ route('cursos.cambiar-estado', $curso) }}" method="POST" style="flex:1; max-width:60%; margin:0; display:block;">
+                              <form action="{{ route('cursos.cambiar-estado', $curso) }}" method="POST" style="flex: 1; margin: 0;">
                                  @csrf
                                  @method('PATCH')
                                  <input type="hidden" name="estado" value="borrador">
-                                 <button type="submit" class="btn btn-sm btn-secondary" style="width:100%; text-align:center;">
+                                 <button type="submit" class="btn btn-sm btn-secondary w-100" style="text-align:center; padding: 0.25rem 0.5rem;">
                                     <i class="fas fa-file-alt"></i> Borrador
                                  </button>
                               </form>
